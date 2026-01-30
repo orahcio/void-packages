@@ -6,7 +6,6 @@ build_style=gnu-configure
 configure_args="--prefix=/usr"
 hostmakedepends="autoconf automake pkg-config guile-devel"
 makedepends="guile-devel"
-depends=""
 short_desc="Structured access to bytevector contents"
 maintainer="orahcio <orahcio@gmail.com>"
 license="GPL-3.0-or-later"
