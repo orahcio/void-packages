@@ -1,0 +1,21 @@
+# Template file for 'hst'
+pkgname=hst
+version=0.0.20250203
+revision=1
+build_style=gnu-makefile
+hostmakedepends="pkg-config"
+makedepends="neuwld wayland-protocols libdrm-devel pixman-devel fontconfig-devel libxkbcommon-devel freetype-devel"
+short_desc="Suckless terminal emulator using neuwld"
+maintainer="orahcio <orahcio@gmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://git.sr.ht/~dlm/hst"
+_commit="6187ef823d1fabe2139aed54dbb7a7e28c6d8ff4"
+distfiles="https://git.sr.ht/~dlm/hst/archive/${_commit}.tar.gz"
+checksum=06515c64967ed25eb4a61a3fbef0ddb429dc12e6e211a18a37683183037f9b1a
+
+LDFLAGS+=-lz\ -lbz2\ -lpng16\ -lbrotlidec
+
+pre_build() {
+	cp config.def.h config.h
+	ls config.h
+}

@@ -1,0 +1,21 @@
+# Template file for 'swxwm'
+pkgname=wsxwm
+version=0.0.20260221
+revision=1
+build_style=gnu-makefile
+hostmakedepends="pkg-config"
+makedepends="neuswc freeway libxkbcommon-devel libinput-devel pixman-devel libdrm-devel neuwld fontconfig-devel libxcb-devel xcb-util-wm-devel"
+depends="neuswc>=0.0.20260228"
+short_desc="Way Sexier Window Manager, compositor"
+maintainer="orahcio <orahcio@gmail.com>"
+license="ISC"
+homepage="https://git.sr.ht/~uint/wsxwm"
+_commit="f5f3c1f53b77d41ab0b0aefabb64e86881b5705d"
+distfiles="https://git.sr.ht/~uint/wsxwm/archive/${_commit}.tar.gz"
+checksum=f322997ce06e12b5a69ae0b032345ed874998605e2351723bfa9c81971a2423f
+make_check=no
+
+do_install() {
+	ls
+	vbin wsxwm
+}

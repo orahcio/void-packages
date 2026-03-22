@@ -1,0 +1,29 @@
+diff --git a/src/Makefile b/src/Makefile
+index 17fc232..55659d1 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -246,9 +246,5 @@ install: ${PKGCONFIG_FILES}
+ 	install -d ${DESTDIR}${DATADIR}/wayland
+ 	install -m 644 ${PROTOCOL_XML} ${DESTDIR}${DATADIR}/wayland/
+ 	install -m 644 ${PROTOCOL_DTD} ${DESTDIR}${DATADIR}/wayland/
+-.if ${BUILD_SHARED} != "0"
+-	ln -sf ${DESTDIR}${LIBDIR}/libwayland-server.so.${SERVER_SOVERSION} ${DESTDIR}${LIBDIR}/libwayland-server.so
+-	ln -sf ${DESTDIR}${LIBDIR}/libwayland-client.so.${CLIENT_SOVERSION} ${DESTDIR}${LIBDIR}/libwayland-client.so
+-.endif
+ 
+ .PHONY: all clean install
+diff --git a/src/scanner/emit.c b/src/scanner/emit.c
+index 7297c6d..305dbd4 100644
+--- a/src/scanner/emit.c
++++ b/src/scanner/emit.c
+@@ -986,7 +986,9 @@ void emit_code(struct protocol *protocol, enum visibility vis) {
+   printf("#include <stdbool.h>\n"
+          "#include <stdlib.h>\n"
+          "#include <stdint.h>\n"
+-         "#include \"wayland-util.h\"\n\n");
++         "#include \"wayland-util.h\"\n"
++	 "#include <wayland-client.h>\n"
++	 "#include <wayland-server.h>\n\n");
+   printf("WL_EXPORT void wl_register_dispatcher(const struct wl_interface *interface,\n"
+          "				     wl_dispatcher_func_t method_dispatcher,\n"
+          "				     wl_dispatcher_func_t event_dispatcher);\n\n");

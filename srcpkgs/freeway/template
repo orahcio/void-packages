@@ -1,0 +1,22 @@
+# Template file for 'freeway'
+pkgname=freeway
+version=0.0.20260210
+revision=1
+build_style=gnu-makefile
+make_cmd=bmake
+hostmakedepends="bmake"
+makedepends="expat-devel"
+short_desc="Simpler libwayland"
+maintainer="orahcio <orahcio@gmail.com>"
+license="custom:No license declared by upstram - contact upstream author"
+homepage="https://git.sr.ht/~shrub900/freeway"
+_commit="562b1710346337be0ef12f56a7306f907811577d"
+distfiles="https://git.sr.ht/~shrub900/freeway/archive/${_commit}.tar.gz"
+checksum=4b3b74c17313c9c286b6e5c1cfdb91022ec1a7fc84d1cbe81bcf1928c299a278
+
+CFLAGS="-fPIC ${CFLAGS}"
+CXXFLAGS="-fPIC ${CXXFLAGS}"
+# No check phase for freeway package
+make_check=no
+# conflicts="wayland"
+# restricted=yes

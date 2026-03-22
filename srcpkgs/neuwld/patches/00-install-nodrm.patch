@@ -1,0 +1,26 @@
+diff --git a/Makefile b/Makefile
+index 41a01e9..1e541f6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -176,7 +176,7 @@ all: ${WLD_LIB} ${WLD_LIB_SONAME} ${WLD_LIB_LINK}
+ .endif
+ 
+ .PHONY: install
+-install: all
++install:
+ 	${INSTALL} -d ${DESTDIR}${LIBDIR}
+ 	${INSTALL} -d ${DESTDIR}${INCLUDEDIR}/wld
+ 	${INSTALL} -d ${DESTDIR}${PKGCONFIGDIR}
+diff --git a/config.mk b/config.mk
+index 6395407..0c7d1ac 100644
+--- a/config.mk
++++ b/config.mk
+@@ -8,7 +8,7 @@ ENABLE_STATIC=1
+ ENABLE_SHARED=1
+ 
+ ENABLE_PIXMAN=1
+-ENABLE_DRM=1
++ENABLE_DRM=0
+ ENABLE_WAYLAND=1
+ 
+ DRM_DRIVERS=intel nouveau
