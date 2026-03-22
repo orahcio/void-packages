@@ -16,7 +16,5 @@ checksum=4b3b74c17313c9c286b6e5c1cfdb91022ec1a7fc84d1cbe81bcf1928c299a278
 
 CFLAGS="-fPIC ${CFLAGS}"
 CXXFLAGS="-fPIC ${CXXFLAGS}"
-# No check phase for freeway package
-make_check=no
 # conflicts="wayland"
 # restricted=yes
