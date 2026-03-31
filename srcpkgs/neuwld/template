@@ -2,18 +2,17 @@
 pkgname=neuwld
 version=0.0.20260226
 revision=1
-build_style=gnu-makefile
-make_cmd=bmake
-hostmakedepends="bmake pkg-config"
-makedepends="fontconfig-devel libpng-devel pixman-devel libdrm-devel wayland-devel"
-# freeway pode ser usada ao invés da wayland-devel
+build_style=meson
+configure_args="-Ddefault_library=shared"
+hostmakedepends="pkg-config"
+makedepends="fontconfig-devel libpng-devel pixman-devel libdrm-devel freeway"
 short_desc="Drawing library that targets Wayland"
 maintainer="orahcio <orahcio@gmail.com>"
 license="MIT"
 homepage="https://git.sr.ht/~shrub900/neuwld"
-_commit="534372ea862c933f0e614a9dd77c5b44ddb18d10"
+_commit="6446a28168045efffa8ccd3de0b6eb3599fb5339"
 distfiles="https://git.sr.ht/~shrub900/neuwld/archive/${_commit}.tar.gz"
-checksum=afd79881f0c4e57c3ef4d978713ceb8150aa0f1163c909e79b97c334665f4bdd
+checksum=81eb89b980f35e83b7c35e348d7fdc4d525ed851bd29f0cf43e2b759734dc6a8
 
 post_install() {
 	vlicense COPYING

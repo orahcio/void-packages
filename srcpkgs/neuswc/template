@@ -1,32 +1,20 @@
 # Template file for 'neuswc'
 pkgname=neuswc
-version=0.0.20260228
+version=0.0.20260320
 revision=1
-#build_style=gnu-makefile
-#make_cmd=bmake
-hostmakedepends="bmake pkg-config"
-makedepends="freeway libdrm-devel neuwld eudev-libudev-devel pixman-devel fontconfig-devel libxkbcommon-devel libinput-devel wayland-protocols xcb-util-wm-devel"
+build_style=meson
+hostmakedepends="pkg-config"
+makedepends="freeway libdrm-devel neuwld eudev-libudev-devel pixman-devel wayland-protocols fontconfig-devel libxkbcommon-devel libinput-devel xcb-util-wm-devel"
 depends=""
 short_desc="Small Wayland compositor, fork for more features"
 maintainer="orahcio <orahcio@gmail.com>"
 license="MIT"
 homepage="https://git.sr.ht/~shrub900/neuswc"
-#changelog=""
-_commit="f0147d3d9b84f5d81ad14260f08808afc563e54d"
+_commit="8a2d575859ae683ed7dc695b31c3c1dfa104242a"
 distfiles="https://git.sr.ht/~shrub900/neuswc/archive/${_commit}.tar.gz"
-checksum=8af2be5cda76731ea58aa94c1bc5847c435d55149d2b6e503170457f5767aca3
+checksum=c268522111c45673581721411aac603e86ecb47ed26143c4390560228b1ed5fe
 
-# No phase check on project
-#make_check=no
-
-do_build() {
-	bmake
-}
-
-do_install() {
-	bmake install DESTDIR=${DESTDIR}
-
-}
+LDFLAGS="-Wl,--as-needed -Wl,--start-group -lwld -lfontconfig -lexpat -lm -lpixman-1 -pthread -lfreetype -lbz2 -lpng16 -lz -lbrotlidec -lbrotlicommon -lwayland-client -ldrm_nouveau -pthread -ldrm_intel -pthread -lpciaccess -ldrm -lwayland-server -lxkbcommon -linput -ludev -Wl,--end-group"
 
 post_install() {
 	vlicense LICENSE

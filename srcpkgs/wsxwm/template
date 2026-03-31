@@ -16,6 +16,5 @@ checksum=f322997ce06e12b5a69ae0b032345ed874998605e2351723bfa9c81971a2423f
 make_check=no
 
 do_install() {
-	ls
 	vbin wsxwm
 }
