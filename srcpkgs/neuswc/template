@@ -11,9 +11,9 @@ short_desc="Small Wayland compositor, fork for more features"
 maintainer="orahcio <orahcio@gmail.com>"
 license="MIT"
 homepage="https://git.sr.ht/~shrub900/neuswc"
-_commit="cc19cf90d38425132157e4afae52ac0f437c45fc"
+_commit="6a928895864f766363cf3b6ad851d9efd8e85335"
 distfiles="https://git.sr.ht/~shrub900/${pkgname}/archive/${_commit}.tar.gz"
-checksum=2273b874079eabd265e9d6b7ab31fbbdc3395bac5dd888a5546659b2e6c02737
+checksum=c42f7289d3629527b5353bb5cc76977a2f7b9fd3cc524ef09496613fc0995236
 
 post_install() {
 	vlicense LICENSE
