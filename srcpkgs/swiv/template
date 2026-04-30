@@ -1,0 +1,22 @@
+# Template file for 'swiv'
+pkgname=swiv
+version=0.0.20260208
+revision=1
+build_style=gnu-makefile
+hostmakedepends="pkg-config"
+makedepends="wayland-devel neuwld pixman-devel fontconfig-devel"
+depends=""
+short_desc="Simple wayland image viewer"
+maintainer="orahcio <orahcio@gmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://git.sr.ht/~shrub900/swiv"
+_commit="53948d6838123df4bb5840e13ebd4cfc4ec92e23"
+distfiles="https://git.sr.ht/~shrub900/${pkgname}/archive/${_commit}.tar.gz"
+checksum=566711ee4c7283f0e6cfb9f7d49702869c45be1116c54e13cecde4443f0a51bf
+
+do_build() {	make CC="$CC" \
+	CFLAGS="$CFLAGS $(pkg-config --cflags wayland-client pixman-1)" \
+	LDFLAGS="$LDFLAGS" \
+	PREFIX=/usr prefix=/usr \
+	${makejobs} ${make_build_args} ${make_build_target}
+}
