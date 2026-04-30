@@ -3,17 +3,22 @@ pkgname=neuwld
 version=0.0.20260226
 revision=1
 build_style=meson
-configure_args="-Ddefault_library=shared"
+configure_args="-Ddefault_library=both"
 hostmakedepends="pkg-config"
-makedepends="fontconfig-devel libpng-devel pixman-devel libdrm-devel freeway"
+makedepends="fontconfig-devel freetype-devel libpng-devel pixman-devel libdrm-devel wayland-devel"
 short_desc="Drawing library that targets Wayland"
 maintainer="orahcio <orahcio@gmail.com>"
 license="MIT"
 homepage="https://git.sr.ht/~shrub900/neuwld"
 _commit="6446a28168045efffa8ccd3de0b6eb3599fb5339"
-distfiles="https://git.sr.ht/~shrub900/neuwld/archive/${_commit}.tar.gz"
+distfiles="https://git.sr.ht/~shrub900/${pkgname}/archive/${_commit}.tar.gz"
 checksum=81eb89b980f35e83b7c35e348d7fdc4d525ed851bd29f0cf43e2b759734dc6a8
+
+pre_configure() {
+	export CFLAGS="${CFLAGS} -fPIC"
+}
 
 post_install() {
 	vlicense COPYING
+	ranlib ${DESTDIR}/usr/lib/libwld.a
 }

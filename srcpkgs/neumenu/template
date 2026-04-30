@@ -1,10 +1,10 @@
 # Template file for 'neumenu'
 pkgname=neumenu
-version=0.0.20260304
+version=0.0.20260226
 revision=1
 build_style=gnu-makefile
 hostmakedepends="pkg-config"
-makedepends="freeway libxkbcommon-devel neuwld neuswc fontconfig-devel pixman-devel libdrm-devel pixman-devel"
+makedepends="wayland-devel libxkbcommon-devel neuwld neuswc-devel fontconfig-devel pixman-devel libdrm-devel pixman-devel"
 short_desc="Efficient dynamic menu for wayland"
 maintainer="orahcio <orahcio@gmail.com>"
 license="MIT"
@@ -12,6 +12,13 @@ homepage="https://git.sr.ht/~uint/neumenu"
 _commit="88d0bd8bb47a3bea4e806087b4be95af226d5bb3"
 distfiles="https://git.sr.ht/~uint/neumenu/archive/${_commit}.tar.gz"
 checksum=d727c2423c7a6e602d3229615bfa92bb916be2064fc07624bdd7159ff9d4eaf1
+
+pre_build() {
+	ranlib /usr/lib/libwld.a
+	CFLAGS="${CFLAGS} $(pkg-config --cflags wld) -DVERSION='\"${version}\"'"
+	LDFLAGS="-Wl,-z,relro -Wl,-z,now -lwayland-client -lm -lxkbcommon -lfontconfig -lfreetype -lpixman-1 -ldrm -Wl,--start-group -lwld -Wl,--end-group"
+	make_build_args="SWCPROTO=/usr/share/swc/swc.xml"
+}
 
 post_install() {
 	vlicense LICENSE

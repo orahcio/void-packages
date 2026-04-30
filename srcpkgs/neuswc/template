@@ -1,21 +1,30 @@
 # Template file for 'neuswc'
 pkgname=neuswc
-version=0.0.20260320
+version=0.0.20260329
 revision=1
 build_style=meson
+configure_args="-Db_lundef=false"
 hostmakedepends="pkg-config"
-makedepends="freeway libdrm-devel neuwld eudev-libudev-devel pixman-devel wayland-protocols fontconfig-devel libxkbcommon-devel libinput-devel xcb-util-wm-devel"
-depends=""
+makedepends="wayland-devel expat-devel libdrm-devel neuwld pixman-devel wayland-protocols fontconfig-devel libxkbcommon-devel libinput-devel libxcb-devel xcb-util-wm-devel xorg-server-xwayland"
+depends="neuwld wayland-protocols xorg-server-xwayland"
 short_desc="Small Wayland compositor, fork for more features"
 maintainer="orahcio <orahcio@gmail.com>"
 license="MIT"
 homepage="https://git.sr.ht/~shrub900/neuswc"
-_commit="8a2d575859ae683ed7dc695b31c3c1dfa104242a"
-distfiles="https://git.sr.ht/~shrub900/neuswc/archive/${_commit}.tar.gz"
-checksum=c268522111c45673581721411aac603e86ecb47ed26143c4390560228b1ed5fe
-
-LDFLAGS="-Wl,--as-needed -Wl,--start-group -lwld -lfontconfig -lexpat -lm -lpixman-1 -pthread -lfreetype -lbz2 -lpng16 -lz -lbrotlidec -lbrotlicommon -lwayland-client -ldrm_nouveau -pthread -ldrm_intel -pthread -lpciaccess -ldrm -lwayland-server -lxkbcommon -linput -ludev -Wl,--end-group"
+_commit="cc19cf90d38425132157e4afae52ac0f437c45fc"
+distfiles="https://git.sr.ht/~shrub900/${pkgname}/archive/${_commit}.tar.gz"
+checksum=2273b874079eabd265e9d6b7ab31fbbdc3395bac5dd888a5546659b2e6c02737
 
 post_install() {
 	vlicense LICENSE
+}
+
+neuswc-devel_package() {
+	short_desc+=" - development files"
+	depends="${sourcepkg}>=${version}_${revision}"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/libswc.a
+		vmove usr/lib/pkgconfig
+	}
 }

@@ -1,0 +1,9 @@
+--- a/meson.build	2026-04-30 00:51:27.680525621 -0300
++++ b/meson.build	2026-04-30 11:50:44.653376199 -0300
+@@ -37,5 +37,5 @@
+   c_args : ['-D_POSIX_C_SOURCE=200809L', '-Wall', '-Wextra'],
+   dependencies : pkg_deps + [libm, luajit_dep],
+   install : true,
+-  install_dir : '/usr/local/bin',
++  install_dir : get_option('bindir'),
+ )
