@@ -1,0 +1,15 @@
+# Template file for 'chum'
+pkgname=chum
+version=0.0.20260223
+revision=1
+build_style=gnu-makefile
+hostmakedepends="pkg-config"
+makedepends="wayland-devel neuswc neuswc-devel libinput-devel pixman-devel fontconfig-devel libxkbcommon-devel neuwld libdrm-devel eudev-libudev-devel libxcb-devel xcb-util-devel xcb-util-wm-devel"
+depends=""
+short_desc="Area selector for neuswc"
+maintainer="orahcio <orahcio@gmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://git.sr.ht/~dlm/chum"
+_commit="979c8bd048fa355382c286d0c01f92af526249f0"
+distfiles="https://git.sr.ht/~dlm/${pkgname}/archive/${_commit}.tar.gz"
+checksum=74fc049845615b226a57c1670e175f7e293971201a1b5fe64724567f93670f92

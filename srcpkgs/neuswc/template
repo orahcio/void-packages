@@ -3,7 +3,7 @@ pkgname=neuswc
 version=0.0.20260329
 revision=1
 build_style=meson
-configure_args="-Db_lundef=false"
+configure_args="-Db_lundef=false -Dextra=true"
 hostmakedepends="pkg-config"
 makedepends="wayland-devel expat-devel libdrm-devel neuwld pixman-devel wayland-protocols fontconfig-devel libxkbcommon-devel libinput-devel libxcb-devel xcb-util-wm-devel xorg-server-xwayland"
 depends="neuwld wayland-protocols xorg-server-xwayland"
@@ -26,5 +26,6 @@ neuswc-devel_package() {
 		vmove usr/include
 		vmove usr/lib/libswc.a
 		vmove usr/lib/pkgconfig
+		vcopy build/protocol/*.h usr/include
 	}
 }
