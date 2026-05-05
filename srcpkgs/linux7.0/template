@@ -1,6 +1,12 @@
+<<<<<<<< HEAD:srcpkgs/linux6.19/template
+# Template file for 'linux6.19'
+pkgname=linux6.19
+version=6.19.14
+========
 # Template file for 'linux7.0'
 pkgname=linux7.0
-version=7.0.2
+version=7.0.3
+>>>>>>>> master:srcpkgs/linux7.0/template
 revision=1
 short_desc="Linux kernel and modules (${version%.*} series)"
 maintainer="Duncaen <duncaen@voidlinux.org>"
@@ -17,8 +23,13 @@ rc*) distfiles="https://git.kernel.org/torvalds/t/linux-${version%.*}-${version#
 	fi
 esac
 
+<<<<<<<< HEAD:srcpkgs/linux6.19/template
+checksum="303079a8250b8f381f82b03f90463d12ac98d4f6b149b761ea75af1323521357
+ 19f3e7c29242a53fc861bbd1c01a66bee2ac01069683190d9bc5d78e072efcfd"
+========
 checksum="bb7f6d80b387c757b7d14bb93028fcb90f793c5c0d367736ee815a100b3891f0
- 2bc50cd7f113d4f013f15751ed5a33ad9231ae4ddfcf527d152e4f8cd4c42ecd"
+ 83dd9904de4323211c0cabf78012923980f8d4041dc2dd5dc7c42539a2f4bfd6"
+>>>>>>>> master:srcpkgs/linux7.0/template
 
 python_version=3
 

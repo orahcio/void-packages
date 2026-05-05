@@ -1,6 +1,10 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86_64 7.0.2 Kernel Configuration
+<<<<<<<< HEAD:srcpkgs/linux6.19/files/x86_64-dotconfig
+# Linux/x86_64 6.19.14 Kernel Configuration
+========
+# Linux/x86_64 7.0.3 Kernel Configuration
+>>>>>>>> master:srcpkgs/linux7.0/files/x86_64-dotconfig
 #
 CONFIG_CC_VERSION_TEXT="gcc (GCC) 14.2.1 20250405"
 CONFIG_CC_IS_GCC=y
@@ -7213,6 +7217,10 @@ CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER=y
 
 CONFIG_DRM_ACCEL=y
 CONFIG_DRM_ACCEL_AMDXDNA=m
+<<<<<<<< HEAD:srcpkgs/linux6.19/files/x86_64-dotconfig
+# CONFIG_DRM_ACCEL_ARM_ETHOSU is not set
+========
+>>>>>>>> master:srcpkgs/linux7.0/files/x86_64-dotconfig
 # CONFIG_DRM_ACCEL_HABANALABS is not set
 CONFIG_DRM_ACCEL_IVPU=m
 # CONFIG_DRM_ACCEL_IVPU_DEBUG is not set

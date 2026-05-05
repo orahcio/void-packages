@@ -1,6 +1,10 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/i386 7.0.2 Kernel Configuration
+<<<<<<<< HEAD:srcpkgs/linux6.19/files/i386-dotconfig
+# Linux/i386 6.19.14 Kernel Configuration
+========
+# Linux/i386 7.0.3 Kernel Configuration
+>>>>>>>> master:srcpkgs/linux7.0/files/i386-dotconfig
 #
 CONFIG_CC_VERSION_TEXT="gcc (GCC) 14.2.1 20250405"
 CONFIG_CC_IS_GCC=y
