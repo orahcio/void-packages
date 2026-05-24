@@ -1,0 +1,14 @@
+# Template file for 'wawa'
+pkgname=wawa
+version=0.0.20260520
+revision=1
+build_style=gnu-makefile
+hostmakedepends="pkg-config"
+makedepends="wayland-devel wayland-protocols"
+short_desc="Distinctive simpler wlroots wallpaper setter"
+maintainer="orahcio <orahcio@gmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://codeberg.org/sewn/wawa"
+_commit="249f43876d05f73cc1ba9c51235a32f058478e8c"
+distfiles="https://codeberg.org/sewn/${pkgname}/archive/${_commit}.tar.gz"
+checksum=c7f6ecc77d307429256b43deb913c81c31974847f527d64756426e73ce966602
