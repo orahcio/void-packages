@@ -1,17 +1,18 @@
 # Template file for 'python3-habanero'
 pkgname=python3-habanero
-version=0.6.2
-revision=9
-build_style=python3-module
-hostmakedepends="python3-setuptools"
-depends="python3-requests"
+version=2.4.0
+revision=10
+build_style=python3-pep517
+hostmakedepends="hatchling python3-pytest"
+checkdepends="python3-yaml python3-httpx python3-tqdm python3-urllib3"
+depends="${checkdepends} python3-packaging"
 short_desc="Python3 low level client for Crossref Search API"
-maintainer="xaltsc <xaltsc@protonmail.ch>"
+maintainer="xaltsc <xaltsc@protonmail.ch>, orahcio <orahcio@gmail.com>"
 license="MIT"
 homepage="https://github.com/sckott/habanero"
 distfiles="${PYPI_SITE}/h/habanero/habanero-${version}.tar.gz"
-checksum=806c74298e0fb8a838514307ef3eca73685a968b8efd00e5dfe1ea604200f59d
+checksum=7690ca5a261037632e5d7751ce3c47234112079ab80e9de4be626c684034e1f8
 
 post_install() {
-	vlicense docs/license.rst
+	vlicense LICENSE.md
 }
