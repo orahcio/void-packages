@@ -1,0 +1,34 @@
+# Template file for 'neuswc'
+pkgname=neuswc
+version=0.0.20260914
+revision=1
+build_style=meson
+configure_args="-Db_lundef=false -Dextra=true"
+hostmakedepends="pkg-config"
+makedepends="wayland-devel expat-devel libdrm-devel neuwld-devel pixman-devel wayland-protocols fontconfig-devel libxkbcommon-devel libinput-devel libxcb-devel xcb-util-wm-devel xorg-server-xwayland"
+depends="wayland-protocols xorg-server-xwayland"
+short_desc="Small Wayland compositor, fork for more features"
+maintainer="orahcio <orahcio@gmail.com>"
+license="MIT"
+homepage="https://git.sr.ht/~shrub900/neuswc"
+_commit="485349be4369877f730ea731d5646d5674abb9d2"
+# Official https://git.sr.ht/~shrub900/neuswc
+# I used a patch from pfr because neuwm
+distfiles="https://git.sr.ht/~pfr/neuswc/archive/${_commit}.tar.gz"
+checksum=7d3c5e82e8afb10207c6fe22e71434d5831eafb491963001dcf3eabc6f143f71
+
+post_install() {
+	vlicense LICENSE
+}
+
+neuswc-devel_package() {
+	short_desc+=" - development files"
+	depends="${sourcepkg}>=${version}_${revision}"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/libswc.a
+		vmove usr/lib/libswc.so
+		vmove usr/lib/pkgconfig
+		vcopy build/protocol/*.h usr/include
+	}
+}
