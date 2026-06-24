@@ -1,3 +1,20 @@
+## Note about [wayland.fyi](https://wayland.fyi) packages:
+
+ - `chum`;
+ - `howl` and `libspng` (requiried);
+ - `hst`, patches:
+   - Cozette font;
+   - Dead keys;
+ - `mojito`;
+ - `neuipc`;
+ - `neumenu`;
+ - `neuswc`;
+ - `neuwld`;
+ - `neuwm`;
+ - `swiv`;
+
+Use master branch to return to the original void-packages.
+
 ## The XBPS source packages collection
 
 This repository contains the XBPS source packages collection to build binary packages
