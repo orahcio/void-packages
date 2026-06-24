@@ -1,0 +1,8 @@
+--- a/Makefile	2026-05-04 18:34:56.174365448 -0300
++++ b/Makefile	2026-05-04 18:35:09.038405981 -0300
+@@ -1,4 +1,4 @@
+-PREFIX = /usr/local
++PREFIX ?= /usr/local
+ BINDIR = $(PREFIX)/bin
+ 
+ CFLAGS = -O2 -std=c99 -Wall -Wextra -pedantic
