@@ -1,0 +1,27 @@
+# Template file for 'howl'
+pkgname=howl
+version=0.0.20260509
+revision=1
+build_style=gnu-makefile
+hostmakedepends="pkg-config"
+makedepends="wayland-devel libxkbcommon-devel neuswc-devel libspng-devel"
+short_desc="Dmall, extensible Wayland compositor written with the neuswc library"
+maintainer="orahcio <orahcio@gmail.com>"
+license="ISC"
+homepage="https://git.sr.ht/~wf/howl"
+_commit="13ef4c74e67aaa151a6ad9d7a824979d5ae7ae18"
+distfiles="https://git.sr.ht/~wf/${pkgname}/archive/${_commit}.tar.gz"
+checksum=6d07253b543a3ba21cafa2df1339c626d5c2e5709afca0bf296c931b216d9e19
+
+post_patch() {
+	vsed -i 's/^LDFLAGS.*+= -Iinclude/CFLAGS += -Iinclude -Isrc/' Makefile
+	vsed -i 's|^\(LDLIBS.*\)$|\1 -lxkbcommon|' Makefile
+}
+
+do_build() {
+    make CC="$CC" PREFIX=/usr
+}
+
+post_install() {
+	vlicense LICENSE
+}
