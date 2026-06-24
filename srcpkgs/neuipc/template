@@ -1,0 +1,17 @@
+# Template file for 'neuipc'
+pkgname=neuipc
+version=0.0.20260423
+revision=1
+build_style=meson
+hostmakedepends="pkg-config"
+short_desc="Lightweight unix IPC library focused on compatibility with neuswc"
+maintainer="orahcio <orahcio@gmail.com>"
+license="ISC"
+homepage="https://codeberg.org/binkd/neuipc"
+_commit="d654f2fa0013237f1681fd1d8c6653a38c3cc753"
+distfiles="https://codeberg.org/binkd/${pkgname}/archive/${_commit}.tar.gz"
+checksum=8b9855cec09079b15b1cd293aba139f63d0b716e7980a422f2fefc5224215042
+
+post_install() {
+	vlicense LICENSE
+}
