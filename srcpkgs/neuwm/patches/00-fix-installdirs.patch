@@ -1,0 +1,17 @@
+--- a/meson.build	2026-05-03 21:49:40.427075274 -0300
++++ b/meson.build	2026-05-03 22:32:38.960180914 -0300
+@@ -44,12 +44,12 @@
+   c_args : ['-D_POSIX_C_SOURCE=200809L', '-Wall', '-Wextra'],
+   dependencies : pkg_deps + [libm, luajit_dep, neuipc_dep],
+   install : true,
+-  install_dir : '/usr/local/bin',
++  install_dir : get_option('bindir'),
+ )
+ 
+ executable('neuwmctl',
+   sources : ['source/neuwmctl.c'],
+   c_args : ['-D_POSIX_C_SOURCE=200809L'],
+   install : true,
+-  install_dir : '/usr/local/bin',
++  install_dir : get_option('bindir'),
+ )

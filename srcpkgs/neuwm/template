@@ -1,0 +1,16 @@
+# Template file for 'neuwm'
+pkgname=neuwm
+version=0.0.20260809
+revision=1
+build_style=meson
+configure_args="-Db_lundef=false"
+hostmakedepends="pkg-config"
+makedepends="neuswc-devel neuwld-devel neuipc wayland-protocols xorg-server-xwayland wayland-devel libxkbcommon-devel libinput-devel pixman-devel libdrm-devel fontconfig-devel libxcb-devel xcb-util-wm-devel LuaJIT-devel"
+depends="neumenu neuswc"
+short_desc="Wayland compositor based wsxwm and borrowed hevel"
+maintainer="orahcio <orahcio@gmail.com>"
+license="ISC"
+homepage="https://git.sr.ht/~pfr/neuwm"
+_commit="5228c0981e8672d28ff973ad3d1b3991b3610516"
+distfiles="https://git.sr.ht/~pfr/${pkgname}/archive/${_commit}.tar.gz"
+checksum=09e45e00fb8bd81df5adae4180f001c09f2b829104766b18c61dfd84c6c20d0d
