@@ -1,0 +1,20 @@
+# Template file for 'mojito'
+pkgname=mojito
+version=0.0.20260504
+revision=1
+build_style=gnu-makefile
+hostmakedepends="pkg-config"
+makedepends="neuswc-devel wayland-devel fontconfig-devel pixman-devel neuwld-devel"
+short_desc="Featherweight, lime-scented bar for Wayland"
+maintainer="orahcio <orahcio@gmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://git.sr.ht/~dlm/mojito"
+_commit="8f059ca5cc6cc4ec37228350cde11f0db108a057"
+distfiles="https://git.sr.ht/~dlm/${pkgname}/archive/${_commit}.tar.gz"
+checksum=2f5437c75f59a0297be486db38352f56726585c6210f733a41eaa853cc7e4458
+
+pre_build() {
+	sed -i 's#^PREFIX = /usr/local#PREFIX ?= /usr/local#' Makefile
+	sed -i 's/^PKGS =  swc/PKGS = swc wld pixman-1 fontconfig wayland-client/' Makefile
+	export CFLAGS="$CFLAGS $(pkg-config --cflags pixman-1 fontconfig wayland-client)"
+}
