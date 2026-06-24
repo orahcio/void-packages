@@ -1,0 +1,35 @@
+# Template file for 'neuwld'
+pkgname=neuwld
+version=0.0.20260813
+revision=1
+build_style=meson
+configure_args="-Ddefault_library=both"
+hostmakedepends="pkg-config"
+makedepends="fontconfig-devel freetype-devel libpng-devel pixman-devel libdrm-devel wayland-devel"
+short_desc="Drawing library that targets Wayland"
+maintainer="orahcio <orahcio@gmail.com>"
+license="MIT"
+homepage="https://git.sr.ht/~shrub900/neuwld"
+_commit="554f827cadfdfcc276c709dbffa3b2b04c70cf7c"
+distfiles="https://git.sr.ht/~shrub900/${pkgname}/archive/${_commit}.tar.gz"
+checksum=b2bf77350f260cca046091d28f4a8af89cc495d1d983f3bbed8e2e39f5be86c1
+
+pre_configure() {
+	export CFLAGS="${CFLAGS} -fPIC"
+}
+
+post_install() {
+	vlicense COPYING
+	ranlib ${DESTDIR}/usr/lib/libwld.a
+}
+
+neuwld-devel_package() {
+	depends="${makedepends}"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/libwld.a
+		vmove usr/lib/libwld.so
+		vmove usr/lib/pkgconfig
+	}
+}
