@@ -1,0 +1,32 @@
+# Template file for 'neuswc'
+pkgname=neuswc
+version=0.0.20260813
+revision=1
+build_style=meson
+configure_args="-Db_lundef=false -Dextra=true"
+hostmakedepends="pkg-config"
+makedepends="wayland-devel expat-devel libdrm-devel neuwld-devel pixman-devel wayland-protocols fontconfig-devel libxkbcommon-devel libinput-devel libxcb-devel xcb-util-wm-devel xorg-server-xwayland"
+depends="wayland-protocols xorg-server-xwayland"
+short_desc="Small Wayland compositor, fork for more features"
+maintainer="orahcio <orahcio@gmail.com>"
+license="MIT"
+homepage="https://git.sr.ht/~shrub900/neuswc"
+_commit="b541f39d14e5c81dc35eae6af10c8d959a9c9586"
+distfiles="https://git.sr.ht/~shrub900/${pkgname}/archive/${_commit}.tar.gz"
+checksum=f8cce0296ba8241ea4ecb580fc905e4b70def6828d5326f663cb0690869448fb
+
+post_install() {
+	vlicense LICENSE
+}
+
+neuswc-devel_package() {
+	short_desc+=" - development files"
+	depends="${sourcepkg}>=${version}_${revision}"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/libswc.a
+		vmove usr/lib/libswc.so
+		vmove usr/lib/pkgconfig
+		vcopy build/protocol/*.h usr/include
+	}
+}
