@@ -1,0 +1,33 @@
+# Template file for 'libgrapheme'
+pkgname=libgrapheme
+version=3.0.0
+revision=1
+build_style=gnu-configure
+hostmakedepends=""
+makedepends=""
+depends=""
+short_desc="Handling strings according to the latest Unicode 6 standard 17.0.0"
+maintainer="orahcio <orahcio@gmail.com>"
+license="ISC"
+homepage="https://suckless.org/libgrapheme"
+distfiles="https://dl.suckless.org/${pkgname}/${pkgname}-${version}.tar.gz"
+checksum=32585af73dda62fbcc0fed14f199aa1bc988ad01dad0bfbd06cf175d9cf3d68c
+
+pre_configure() {
+	sed -i "s|= /usr/local|= /usr|g" config.mk
+}
+
+pos_install() {
+	vlicense LICENSE
+}
+
+libgrapheme-devel_package() {
+	short_desc+=" - development files" # Adiciona ao final da descrição
+	depends="${sourcepkg}>=${version}_${revision}"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/lib*.a
+		vmove usr/lib/pkgconfig
+		vmove usr/share/man/man3
+	}
+}
