@@ -1,0 +1,26 @@
+# Template file for 'cterm'
+pkgname=cterm
+version=0.0.20260714
+revision=1
+build_style=gnu-configure
+makedepends="xorg-server-devel libgrapheme-devel"
+short_desc="Tiny, cross-platform terminal emulator (written in C)"
+maintainer="orahcio <orahcio@gmail.com>"
+license="ISC"
+homepage="https://github.com/uint23/cterm"
+_commit="557e939879574c11cab2bf394edb4eab462e860c"
+distfiles="https://github.com/uint23/cterm/archive/${_commit}.tar.gz"
+checksum=6b49bc39cef4ca654bdf594472123fe6f09556611158c1f924ea8dd6758003ee
+
+pre_configure() {
+	export DISPLAY=:0
+	sed -i "s|monospace.bdf|/usr/share/fonts/misc/unifont.bdf|g" config.def.h
+}
+
+do_install() {
+	vbin cterm
+}
+
+pos_install() {
+	vlicense LICENSE
+}
