@@ -1,0 +1,174 @@
+diff --git a/wl.c b/wl.c
+index c776478..24f1f4b 100644
+--- a/wl.c
++++ b/wl.c
+@@ -34,6 +34,7 @@
+ #include <wld/wld.h>
+ #include <wld/wayland.h>
+ #include <xkbcommon/xkbcommon.h>
++#include <xkbcommon/xkbcommon-compose.h>
+ #include <wchar.h>
+ #include <stdbool.h>
+ 
+@@ -112,10 +113,13 @@ typedef struct {
+     int cursor; /* cursor style */
+ } TermWindow;
+ 
++
+ typedef struct {
+     struct xkb_context *ctx;
+     struct xkb_keymap *keymap;
+     struct xkb_state *state;
++    struct xkb_compose_table *compose_table;
++    struct xkb_compose_state *compose_state;
+     xkb_mod_index_t ctrl, alt, shift, logo;
+     unsigned int mods;
+ } XKB;
+@@ -799,6 +803,15 @@ kbdkeymap(void *data, struct wl_keyboard *keyboard, uint32_t format,
+     close(fd);
+     wl.xkb.state = xkb_state_new(wl.xkb.keymap);
+ 
++    wl.xkb.compose_table = xkb_compose_table_new_from_locale(
++        wl.xkb.ctx, setlocale(LC_CTYPE, NULL),
++	XKB_COMPOSE_COMPILE_NO_FLAGS);
++    if (wl.xkb.compose_table) {
++        wl.xkb.compose_state = xkb_compose_state_new(
++	    wl.xkb.compose_table,
++	    XKB_COMPOSE_STATE_NO_FLAGS);
++    }
++
+     wl.xkb.ctrl = xkb_keymap_mod_get_index(wl.xkb.keymap, XKB_MOD_NAME_CTRL);
+     wl.xkb.alt = xkb_keymap_mod_get_index(wl.xkb.keymap, XKB_MOD_NAME_ALT);
+     wl.xkb.shift = xkb_keymap_mod_get_index(wl.xkb.keymap, XKB_MOD_NAME_SHIFT);
+@@ -838,10 +851,11 @@ kbdkey(void *data, struct wl_keyboard *keyboard, uint32_t serial, uint32_t time,
+        uint32_t key, uint32_t state)
+ {
+     xkb_keysym_t ksym;
+-    char buf[32], *str;
++    char buf[64], *str;
+     int len;
+     Rune c;
+     Shortcut *bp;
++    enum xkb_compose_status compose_status;
+ 
+     if (IS_SET(MODE_KBDLOCK))
+         return;
+@@ -852,13 +866,39 @@ kbdkey(void *data, struct wl_keyboard *keyboard, uint32_t serial, uint32_t time,
+         return;
+     }
+ 
+-	wl.globalserial = serial;
++    wl.globalserial = serial;
++
++    /* Atualiza o estado do xkb com este evento */
++    xkb_state_update_key(wl.xkb.state, key + 8,
++                         (state == WL_KEYBOARD_KEY_STATE_PRESSED) ?
++                         XKB_KEY_DOWN : XKB_KEY_UP);
++
+     ksym = xkb_state_key_get_one_sym(wl.xkb.state, key + 8);
+-    len = xkb_keysym_to_utf8(ksym, buf, sizeof buf);
+-    if (len > 0)
+-        --len;
+ 
+-    /* 1. shortcuts */
++    /* Alimenta o estado de composição com o evento */
++    if (wl.xkb.compose_state) {
++        xkb_compose_state_feed(wl.xkb.compose_state, ksym);
++        compose_status = xkb_compose_state_get_status(wl.xkb.compose_state);
++        if (compose_status == XKB_COMPOSE_COMPOSING) {
++            /* Ainda compondo, não envia nada */
++            return;
++        } else if (compose_status == XKB_COMPOSE_COMPOSED) {
++            /* Composição concluída, obtém a string final */
++            len = xkb_compose_state_get_utf8(wl.xkb.compose_state,
++                                             buf, sizeof(buf));
++            if (len > 0) {
++                /* Reseta o estado de composição para a próxima */
++                xkb_compose_state_reset(wl.xkb.compose_state);
++                goto send_composed;
++            }
++        } else {
++            /* XKB_COMPOSE_NOTHING: nenhuma composição, prossegue */
++            xkb_compose_state_reset(wl.xkb.compose_state);
++        }
++    }
++
++    len = xkb_state_key_get_utf8(wl.xkb.state, key + 8, buf, sizeof(buf));
++
+     for (bp = shortcuts; bp < shortcuts + LEN(shortcuts); bp++) {
+         if (ksym == bp->keysym && match(bp->mod, wl.xkb.mods)) {
+             bp->func(&(bp->arg));
+@@ -866,41 +906,44 @@ kbdkey(void *data, struct wl_keyboard *keyboard, uint32_t serial, uint32_t time,
+         }
+     }
+ 
+-    /* 2. custom keys from config.h */
++    /* 2. teclas customizadas do config.h */
+     if ((str = kmap(ksym, wl.xkb.mods))) {
+         len = strlen(str);
+         goto send;
+     }
+ 
+-    /* 3. composed string from input method */
++    /* 3. string composta (sem modificadores Alt/Ctrl) */
+     if (len == 0)
+         return;
+-    if (len == 1 && wl.xkb.mods & MOD_MASK_ALT) {
++
++    /* Aplica transformações Alt/Ctrl apenas para caracteres de 1 byte */
++    if (len == 1 && (wl.xkb.mods & MOD_MASK_ALT)) {
+         if (IS_SET(MODE_8BIT)) {
+-            if (*buf < 0177) {
+-                c = *buf | 0x80;
+-                len = utf8encode(c, buf);
+-            }
++            if ((unsigned char)buf[0] < 0177)
++                buf[0] |= 0x80;
+         } else {
+             buf[1] = buf[0];
+             buf[0] = '\033';
+             len = 2;
+         }
+-    }
+-    /* convert character to control character */
+-    else if (len == 1 && wl.xkb.mods & MOD_MASK_CTRL) {
+-        if ((*buf >= '@' && *buf < '\177') || *buf == ' ')
+-            *buf &= 0x1F;
+-        else if (*buf == '2') *buf = '\000';
+-        else if (*buf >= '3' && *buf <= '7')
+-            *buf -= ('3' - '\033');
+-        else if (*buf == '8') *buf = '\177';
+-        else if (*buf == '/') *buf = '_' & 0x1F;
++    } else if (len == 1 && (wl.xkb.mods & MOD_MASK_CTRL)) {
++        unsigned char c = buf[0];
++        if ((c >= '@' && c < '\177') || c == ' ')
++            buf[0] = c & 0x1F;
++        else if (c == '2')
++            buf[0] = '\000';
++        else if (c >= '3' && c <= '7')
++            buf[0] = c - ('3' - '\033');
++        else if (c == '8')
++            buf[0] = '\177';
++        else if (c == '/')
++            buf[0] = '_' & 0x1F;
+     }
+ 
++send:
+     str = buf;
+ 
+-send:
++send_composed:
+     memcpy(repeat.str, str, len);
+     repeat.key = key;
+     repeat.len = len;
+@@ -1288,6 +1331,10 @@ wlunloadfont(Font *f)
+     FcPatternDestroy(f->pattern);
+     if (f->set)
+         FcFontSetDestroy(f->set);
++    if (wl.xkb.compose_state)
++        xkb_compose_state_unref(wl.xkb.compose_state);
++    if (wl.xkb.compose_table)
++        xkb_compose_table_unref(wl.xkb.compose_table);
+ }
+ 
+ void

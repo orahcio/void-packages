@@ -1,0 +1,15 @@
+# Template file for 'hst'
+pkgname=hst
+version=0.0.0.20260805
+revision=1
+build_style=gnu-makefile
+hostmakedepends="pkg-config"
+makedepends="wayland-protocols wayland-devel fontconfig-devel libxkbcommon-devel neuwld-devel freetype-devel libdrm-devel"
+short_desc="Wayland terminal emulator"
+maintainer="orahcio <orahcio@gmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://git.sr.ht/~dlm/hst"
+changelog="https://git.sr.ht/~dlm/hst/log"
+_commit="5906386421930127f450c3450a4600536e4cd5c6"
+distfiles="https://git.sr.ht/~dlm/hst/archive/${_commit}.tar.gz"
+checksum=0a830335d4db5bd08c266d82c49f5c975698ca285c27cc77b734d117ec041627
